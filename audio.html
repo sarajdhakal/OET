@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OET Listening Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        audio {
+            display: none;
+            /* Hides default audio controls */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Listening Test - Audio Will Play Automatically</h1>
+    <p>Do not close or refresh the page.</p>
+    <audio id="oet-audio" autoplay>
+        <source src="your-audio-file.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        const audio = document.getElementById('oet-audio');
+        audio.play();
+
+        audio.addEventListener('play', () => {
+            console.log('Audio started');
+        });
+
+        // Disable pausing or restarting
+        audio.addEventListener('pause', () => {
+            audio.play(); // Automatically resumes playback if paused
+        });
+
+        audio.addEventListener('ended', () => {
+            alert('The audio has finished.');
+        });
+
+        window.onkeydown = function (e) {
+            if (e.code === 'Space' || e.key === 'Spacebar') {
+                e.preventDefault(); // Prevent spacebar from pausing
+            }
+        };
+    </script>
+</body>
+
+</html>
