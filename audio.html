@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OET Listening Test</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,44 +15,80 @@
 
         audio {
             display: none;
-            /* Hides default audio controls */
         }
 
         button {
-            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
             font-size: 16px;
             cursor: pointer;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button i {
+            font-size: 20px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Listening Test - Audio Will Play Automatically</h1>
+    <h1>Listening Test </h1>
     <p>Do not close or refresh the page.</p>
-    <audio id="oet-audio" autoplay>
-        <source src="your-audio-file.mp3" type="audio/mp3">
+    <h2 style="color: red;"> Click the button below to listen the audio.</h2>
+    <audio id="oet-audio" controls>
+        <source src="BabyElephantWalk60.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
-    <script>
-        const audio = document.getElementById('oet-audio');
-        audio.play();
+    <button id="playButton">
+        <i class="fas fa-headphones"></i> Start Listening
+    </button>
 
-        audio.addEventListener('play', () => {
-            console.log('Audio started');
+    <script>
+        let audioPlayed = false;
+        const playButton = document.getElementById('playButton');
+        playButton.addEventListener('click', function () {
+            const audio = document.getElementById('oet-audio');
+            if (!audioPlayed) {
+                audio.play();
+                audioPlayed = true;
+            }
         });
 
-        // Disable pausing or restarting
+        window.addEventListener('load', function () {
+            const audio = document.getElementById('oet-audio');
+            setTimeout(function () {
+                audio.play().catch(function (error) {
+                    console.error("Autoplay failed:", error);
+                });
+            }, 500);
+        });
+
+
+        const audio = document.getElementById('oet-audio');
         audio.addEventListener('pause', () => {
-            audio.play(); // Automatically resumes playback if paused
+            if (!audioPlayed) {
+                audio.play();
+            }
         });
 
         audio.addEventListener('ended', () => {
             alert('The audio has finished.');
+            audioPlayed = true;
         });
 
         window.onkeydown = function (e) {
             if (e.code === 'Space' || e.key === 'Spacebar') {
-                e.preventDefault(); // Prevent spacebar from pausing
+                e.preventDefault();
             }
         };
     </script>
